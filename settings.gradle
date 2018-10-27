@@ -1,0 +1,1 @@
+include ':app_without_navigation', ':app_with_navigation'

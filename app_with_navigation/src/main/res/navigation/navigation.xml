@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    app:startDestination="@id/gridFragment">
+
+    <fragment
+        android:id="@+id/gridFragment"
+        android:name="com.example.withnavigation.sharedelementsample.GridFragment"
+        android:label="GridFragment" >
+        <action
+            android:id="@+id/action_gridFragment_to_imageFragment"
+            app:destination="@id/imageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="com.example.withnavigation.sharedelementsample.ImageFragment"
+        android:label="ImageFragment" >
+        <argument
+            android:name="imageURL"
+            app:argType="string" />
+    </fragment>
+</navigation>
