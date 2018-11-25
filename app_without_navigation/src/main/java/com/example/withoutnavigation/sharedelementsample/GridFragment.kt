@@ -5,6 +5,7 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.withoutnavigation.sharedelementsample.databinding.FragmentGridBinding
@@ -13,7 +14,11 @@ class GridFragment : Fragment() {
 
     private lateinit var binding: FragmentGridBinding
 
-    private val adapter = GridAdapter(this::clickItem)
+    // Show Activity
+    private val adapter = GridAdapter(this::clickItemActivity)
+
+    // Show Fragment
+//    private val adapter = GridAdapter(this::clickItemFragment)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentGridBinding.inflate(inflater, container, false)
@@ -38,7 +43,17 @@ class GridFragment : Fragment() {
         ))
     }
 
-    private fun clickItem(view: View) {
+    private fun clickItemActivity(view: View) {
+        val intent = ImageActivity.createIntent(requireContext(), view.transitionName)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                requireActivity(),
+                view,
+                view.transitionName
+        )
+        startActivity(intent, options.toBundle())
+    }
+
+    private fun clickItemFragment(view: View) {
         exitTransition = TransitionInflater.from(requireContext()).inflateTransition(R.transition.change_image_transform)
         val fragment = ImageFragment.newInstance(view.transitionName)
         requireFragmentManager().beginTransaction()

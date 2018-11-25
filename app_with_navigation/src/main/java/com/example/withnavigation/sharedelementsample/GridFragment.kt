@@ -5,8 +5,9 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,7 +17,11 @@ class GridFragment : Fragment() {
 
     private lateinit var binding: FragmentGridBinding
 
-    private val adapter = GridAdapter(this::clickItem)
+    // Show Activity
+    private val adapter = GridAdapter(this::clickItemActivity)
+
+    // Show Fragment
+//    private val adapter = GridAdapter(this::clickItemFragment)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentGridBinding.inflate(inflater, container, false)
@@ -41,7 +46,20 @@ class GridFragment : Fragment() {
         ))
     }
 
-    private fun clickItem(view: View) {
+    private fun clickItemActivity(view: View) {
+        val action = GridFragmentDirections.actionGridFragmentToImageActivity(view.transitionName) // transitionName == imageURL
+
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                requireActivity(),
+                view,
+                view.transitionName
+        )
+        val extras = ActivityNavigator.Extras(options)
+
+        findNavController().navigate(action, extras)
+    }
+
+    private fun clickItemFragment(view: View) {
         exitTransition = TransitionInflater.from(requireContext()).inflateTransition(R.transition.change_image_transform)
         val action = GridFragmentDirections.actionGridFragmentToImageFragment(view.transitionName) // transitionName == imageURL
         val extra = FragmentNavigatorExtras(view to view.transitionName)
