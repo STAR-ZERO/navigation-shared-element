@@ -54,7 +54,7 @@ class GridFragment : Fragment() {
                 view,
                 view.transitionName
         )
-        val extras = ActivityNavigator.Extras(options)
+        val extras = ActivityNavigator.Extras.Builder().setActivityOptions(options).build()
 
         findNavController().navigate(action, extras)
     }
